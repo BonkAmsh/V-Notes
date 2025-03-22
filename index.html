@@ -28,8 +28,8 @@
         }
         .subjects-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 20px;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
             padding: 20px 0;
         }
         .subject-card {
@@ -39,9 +39,11 @@
             box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
             text-align: center;
             cursor: pointer;
+            transition: transform 0.2s;
         }
         .subject-card:hover {
             background-color: #f0f0f0;
+            transform: scale(1.05);
         }
         .modal {
             display: none;
@@ -54,7 +56,8 @@
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
             border-radius: 8px;
             z-index: 1000;
-            width: 400px;
+            width: 90%;
+            max-width: 400px;
         }
         .modal.active {
             display: block;
@@ -66,6 +69,7 @@
             padding: 5px 10px;
             cursor: pointer;
             float: right;
+            font-size: 1.2em;
         }
         .module-list {
             margin-top: 20px;
@@ -87,11 +91,16 @@
             font-size: 0.9em;
             color: white;
         }
-        .view-btn {
-            background-color: #ff9800;
-        }
         .download-btn {
             background-color: #1a237e;
+        }
+        @media (max-width: 600px) {
+            .container {
+                width: 90%;
+            }
+            .modal {
+                width: 95%;
+            }
         }
     </style>
 </head>
@@ -104,27 +113,21 @@
         
         <div class="subjects-grid">
             <div class="subject-card" onclick="openModal('MMIC101', 'Problem Solving Using C')">
-                <p class="subject-code">MMIC101</p>
                 <h2 class="subject-name">Problem Solving Using C</h2>
             </div>
             <div class="subject-card" onclick="openModal('MMIC102', 'Discrete Mathematics & Probability')">
-                <p class="subject-code">MMIC102</p>
                 <h2 class="subject-name">Discrete Mathematics & Probability</h2>
             </div>
             <div class="subject-card" onclick="openModal('MMIC103', 'Database Management System')">
-                <p class="subject-code">MMIC103</p>
                 <h2 class="subject-name">Database Management System</h2>
             </div>
             <div class="subject-card" onclick="openModal('MMIC104', 'Operating System')">
-                <p class="subject-code">MMIC104</p>
                 <h2 class="subject-name">Operating System</h2>
             </div>
             <div class="subject-card" onclick="openModal('MMIC105', 'Web Technologies')">
-                <p class="subject-code">MMIC105</p>
                 <h2 class="subject-name">Web Technologies</h2>
             </div>
             <div class="subject-card" onclick="openModal('MRMI107', 'Research Methodology & IPR')">
-                <p class="subject-code">MRMI107</p>
                 <h2 class="subject-name">Research Methodology & IPR</h2>
             </div>
         </div>
@@ -153,9 +156,7 @@
                 moduleItem.classList.add('module-item');
                 moduleItem.innerHTML = `
                     <span>${module}</span>
-                    <div>
-                                                <button class="btn download-btn" onclick="downloadPDF('${subjectCode}_module${index + 1}.pdf')"> View / Download</button>
-                    </div>
+                    <button class="btn download-btn" onclick="downloadPDF('${subjectCode}_module${index + 1}.pdf')"> View / Download</button>
                 `;
                 moduleList.appendChild(moduleItem);
             });
@@ -165,10 +166,6 @@
         
         function closeModal() {
             document.getElementById('popupModal').classList.remove('active');
-        }
-        
-        function viewPDF(pdfFile) {
-            window.open(pdfFile, '_blank');
         }
         
         function downloadPDF(pdfFile) {
